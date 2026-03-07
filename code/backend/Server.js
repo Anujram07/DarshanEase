@@ -17,6 +17,9 @@ app.use(cors({
   credentials: true
 }));
 
+// Serve static files from uploads directory
+app.use('/uploads', express.static('uploads'));
+
 // Routes
 app.use('/user', userRoutes);
 app.use('/organizer', organizerRoutes);

@@ -19,10 +19,12 @@ function CreatedDarshan() {
   });
 
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
+  const userData = localStorage.getItem("user");
+  const user = userData && userData !== 'undefined' ? JSON.parse(userData) : null;
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const userData = localStorage.getItem("user");
+    const user = userData && userData !== 'undefined' ? JSON.parse(userData) : null;
 
     if (user) {
       axios
@@ -59,6 +61,11 @@ function CreatedDarshan() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      alert('User not logged in');
+      return;
+    }
 
     try {
       const formDataToSend = {

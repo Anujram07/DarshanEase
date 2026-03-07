@@ -8,7 +8,7 @@ const TempleSchema = new mongoose.Schema({
   open: { type: String, required: true },
   close: { type: String, required: true },
   location: { type: String, required: true },
-  templeImage: { type: String, required: true }
+  templeImage: { type: String, default: "" }
 });
 
 module.exports = mongoose.model('Temple', TempleSchema);

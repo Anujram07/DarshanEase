@@ -46,7 +46,7 @@ const Utemple = () => {
             {item && (
                 <div>
                     <div style={{ display: "flex", justifyContent: "center", height: "300px" }} >
-                        <img src={`http://localhost:7000/organizer/${item?.templeImage}`} width="500px"  />
+                        <img src={item?.templeImage ? `http://localhost:7000/uploads/${item.templeImage}` : "https://via.placeholder.com/500x300?text=No+Image"} width="500px"  />
                     </div>
                     <h1 className='text-center'> {item.eventName}</h1>
                     <div style={{ display: 'flex', justifyContent: 'space-around' }}>

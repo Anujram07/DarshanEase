@@ -10,7 +10,8 @@ function Bookings() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const userData = localStorage.getItem("user");
+    const user = userData && userData !== 'undefined' ? JSON.parse(userData) : null;
 
     if (!user?.id) {
       navigate("/login");
@@ -69,7 +70,7 @@ function Bookings() {
                       {/* Temple Image */}
                       <div>
                         <img
-                          src={`http://localhost:7000/organizer/${item?.templeImage}`}
+                          src={item?.templeImage ? `http://localhost:7000/uploads/${item.templeImage}` : "https://via.placeholder.com/80x80?text=No+Img"}
                           alt="temple"
                           className="h-20 mx-auto object-cover rounded-md"
                         />

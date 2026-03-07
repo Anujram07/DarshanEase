@@ -13,7 +13,8 @@ const Mytemple = () => {
 
   useEffect(() => {
 
-    const user = JSON.parse(localStorage.getItem('user'));
+    const userData = localStorage.getItem('user');
+    const user = userData && userData !== 'undefined' ? JSON.parse(userData) : null;
 
     if (user) {
 
@@ -42,7 +43,8 @@ const Mytemple = () => {
 
     } catch (error) {
 
-      console.log(error);
+      console.log("Delete error:", error);
+      alert("Failed to delete temple: " + error.message);
 
     }
 
@@ -125,7 +127,7 @@ const Mytemple = () => {
 
               {/* Temple Image */}
               <img
-                src={`http://localhost:7000/organizer/${item.templeImage}`}
+                src={item.templeImage ? `http://localhost:7000/uploads/${item.templeImage}` : "https://via.placeholder.com/400x250?text=No+Image"}
                 alt="Temple"
                 className="w-full rounded-lg object-cover mb-4"
                 style={{ height: "250px" }}

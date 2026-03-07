@@ -161,7 +161,38 @@ exports.getDarshanById = async (req, res) => {
 
         const item = await Darshan.findById(req.params.id);
 
-        res.json(item);
+        if (!item) {
+            return res.status(404).json({ error: 'Darshan not found' });
+        }
+
+        // Normalize data format for backward compatibility
+        const normalizedItem = { ...item.toObject() };
+
+        // If old format with 'price' field, convert to 'prices' object
+        if (item.price && !item.prices) {
+            normalizedItem.prices = {
+                normal: item.price,
+                vip: item.price // Use same price for both if only one exists
+            };
+            delete normalizedItem.price;
+        }
+
+        // Ensure prices object exists with default values
+        if (!normalizedItem.prices) {
+            normalizedItem.prices = { normal: '0', vip: '0' };
+        }
+
+        // Ensure required fields have defaults
+        normalizedItem.darshanName = normalizedItem.darshanName || 'Unknown Darshan';
+        normalizedItem.templeName = normalizedItem.templeName || 'Unknown Temple';
+        normalizedItem.location = normalizedItem.location || '';
+        normalizedItem.description = normalizedItem.description || '';
+        normalizedItem.organizerName = normalizedItem.organizerName || '';
+        normalizedItem.templeImage = normalizedItem.templeImage || '';
+        normalizedItem.open = normalizedItem.open || '';
+        normalizedItem.close = normalizedItem.close || '';
+
+        res.json(normalizedItem);
 
     } catch (err) {
 

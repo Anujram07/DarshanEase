@@ -128,7 +128,7 @@ const deleteData = (taskId) => {
                               >
                                 <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                   <div >
-                                  <img src={`http://localhost:7000/organizer/${item?.templeImage}`} style={{ height: "80px",width:"120px" }} /> 
+                                  <img src={item?.templeImage ? `http://localhost:7000/uploads/${item.templeImage}` : "https://via.placeholder.com/120x80?text=No+Img"} style={{ height: "80px",width:"120px" }} />
                                   </div>
                                   <div>
                                     <p>Temple Name:</p>

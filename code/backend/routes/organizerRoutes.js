@@ -10,7 +10,6 @@ const storage = multer.diskStorage({
     filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname))
 });
 const upload = multer({ storage });
-router.use('/uploads',express.static('uploads'));
 
 // ---------------- AUTH ----------------
 router.post('/ologin', organizerController.ologin);
@@ -23,12 +22,12 @@ router.put('/organizeredit/:id', organizerController.updateOrganizer);
 router.delete('/organizerdelete/:id', organizerController.deleteOrganizer);
 
 // ---------------- TEMPLE CRUD ----------------
-router.post('/createtemple', organizerController.createTemple);
+router.post('/createtemple', upload.single('templeImage'), organizerController.createTemple);
 router.get('/gettemple/:organizerId', organizerController.getTempleByOrganizer);
 router.get('/gettemples', organizerController.getTemples);
 router.get('/gettemplebyid/:templeId', organizerController.getTempleById);
-router.put('/updatetemple/:templeId', organizerController.updateTemple);
-router.delete('/templedelete/:id', organizerController.deleteTemple);
+router.put('/updatetemple/:templeId', upload.single('templeImage'), organizerController.updateTemple);
+router.delete('/deletetemple/:id', organizerController.deleteTemple);
 
 // ---------------- DARSHAN CRUD ----------------
 router.post('/createdarshan', organizerController.createDarshan);

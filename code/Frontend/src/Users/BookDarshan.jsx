@@ -12,7 +12,7 @@ function BookDarshan() {
     email: '',
     phno: '',
   });
-
+  const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
 
   const increase = () => {
@@ -28,13 +28,23 @@ function BookDarshan() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(true);
     axios.get(`http://localhost:7000/user/darshan/${id}`)
       .then((resp) => {
         console.log('API Response:', resp.data);
+        if (!resp.data) {
+          console.error('No darshan data received');
+          alert('Darshan not found');
+          navigate('/utemples');
+          return;
+        }
         setItem(resp.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.log("Failed to fetch item data:", error);
+        alert('Failed to load darshan details');
+        navigate('/utemples');
       });
   }, [id]);
   
@@ -50,16 +60,28 @@ function BookDarshan() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!formData.name || !formData.email || !formData.phno) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
     try {
         console.log('Item:', item);
+        console.log('Item darshanName:', item?.darshanName);
+        console.log('Item templeName:', item?.templeName);
+        console.log('Item prices:', item?.prices);
+        console.log('Item prices:', item?.prices);
       // Ensure item is available and contains the required properties
-      if (!item || !item.organizerName || !item.organizerId || !item.description || !item.templeName || !item.darshanName || !item.close || !item.open || !item.prices || !item.location || !item.templeImage) {
-        throw new Error('Item data is missing required properties');
+      if (!item || !item.darshanName || !item.templeName || !item.prices) {
+        console.error('Item data missing:', item);
+        alert('Darshan data is incomplete. Please try again.');
+        return;
       }
 
-      const { organizerName, description, prices,darshanName,templeName, location, templeImage, organizerId,close,open } = item;
+      const { organizerName, description, prices, darshanName, templeName, location, templeImage, organizerId, close, open } = item;
 
-      const totalAmount = parseInt(prices[selectedDarshan]*quantity, 10) + 49;
+      const selectedPrice = parseInt(prices[selectedDarshan] || '0', 10);
+      const totalAmount = (selectedPrice * quantity) + 45;
      
       // const quantity=quantity;
       const quantityValue = quantity;
@@ -69,20 +91,27 @@ function BookDarshan() {
         ...formData,
         quantity:quantityValue,
         totalamount: totalAmount,
-        organizerName: organizerName,
-        organizerId: organizerId,
-        description: description,
-        templeName: templeName,
-        darshanName: darshanName,
-        location: location,
-        templeImage: templeImage,
-        open: open,
-        close: close,
+        organizerName: organizerName || '',
+        organizerId: organizerId || null,
+        description: description || '',
+        templeName: templeName || '',
+        darshanName: darshanName || '',
+        location: location || '',
+        templeImage: templeImage || '',
+        open: open || '',
+        close: close || '',
       };
 
       // You can add user-specific data here
-      const userid = JSON.parse(localStorage.getItem('user')).id;
-      const username = JSON.parse(localStorage.getItem('user')).name;
+      const userData = localStorage.getItem('user');
+      const user = userData && userData !== 'undefined' ? JSON.parse(userData) : null;
+      if (!user) {
+        alert('Please login to book darshan');
+        navigate('/ulogin');
+        return;
+      }
+      const userid = user.id;
+      const username = user.name;
       updatedFormData.userId = userid;
       updatedFormData.userName = username;
 
@@ -101,9 +130,15 @@ function BookDarshan() {
       <Unavbar />
       <div style={{ display: 'flex ' }} >
         <div className="max-w-md mx-auto mt-8 p-4 border rounded shadow-lg bg-white">
-          <h2 className="text-2xl font-semibold" >Your Booking is almost Done! </h2>
-          {/* <p>item name:{item.itemtype}</p> */}
-          <form onSubmit={handleSubmit}>
+          {loading ? (
+            <div className="text-center py-8">
+              <p>Loading darshan details...</p>
+            </div>
+          ) : (
+            <>
+              <h2 className="text-2xl font-semibold" >Your Booking is almost Done! </h2>
+              {/* <p>item name:{item.itemtype}</p> */}
+              <form onSubmit={handleSubmit}>
 
             <div >
               <label className="block text-gray-600 text-center" style={{ paddingTop: "10px" }}>Details:</label>
@@ -196,6 +231,8 @@ function BookDarshan() {
               Book
             </button>
           </form>
+            </>
+          )}
         </div>
       </div>
     </div>

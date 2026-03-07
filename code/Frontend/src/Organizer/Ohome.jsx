@@ -18,7 +18,8 @@ function Ohome() {
   useEffect(() => {
     
       // Fetch temples data
-      const user = JSON.parse(localStorage.getItem('user'));
+      const userData = localStorage.getItem('user');
+      const user = userData && userData !== 'undefined' ? JSON.parse(userData) : null;
       console.log(user)
       if (user) {
         axios
@@ -31,27 +32,27 @@ function Ohome() {
           .catch((error) => {
             console.error('Error fetching tasks: ', error);
           });
+
+        // Fetch darshans data
+        axios.get(`http://localhost:7000/organizer/getdarshans/${user.id}`)
+        .then((response) => {
+          setDarshans(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching bookings: ', error);
+        });
+
+        // Fetch bookings data
+        axios.get(`http://localhost:7000/organizer/getorganizerbookings/${user.id}`)
+        .then((response) => {
+          setBookings(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching bookings: ', error);
+        });
       } else {
         console.log('ERROR');
       }
-
-      // Fetch darshans data
-     axios.get(`http://localhost:7000/organizer/getdarshans/${user.id}`)
-    .then((response) => {
-      setDarshans(response.data);
-    })
-    .catch((error) => {
-      console.error('Error fetching bookings: ', error);
-    });
-
-     // Fetch bookings data
-     axios.get(`http://localhost:7000/organizer/getorganizerbookings/${user.id}`)
-    .then((response) => {
-      setBookings(response.data);
-    })
-    .catch((error) => {
-      console.error('Error fetching bookings: ', error);
-    });
   }, []);
  
   // const colors = ['#2B124C', '#AE4451', '#F39F5A','orange'];

@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Unavbar from './Unavbar';
-import html2canvas from 'html2canvas';
 import jspdf from 'jspdf';
 
 import QRCode from "react-qr-code";
@@ -12,12 +11,11 @@ import Footer from '../Components/Footer';
 
 function Mybookings() {
   const [items, setItems] = useState([]);  
-  const [selectedCard, setSelectedCard] = useState(null);
   const navigate = useNavigate();
-  const pdref = useRef();
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const userData = localStorage.getItem('user');
+    const user = userData && userData !== 'undefined' ? JSON.parse(userData) : null;
     if (user) {
       axios
         .get(`http://localhost:7000/user/getbookings/${user.id}`)
@@ -40,50 +38,43 @@ function Mybookings() {
     return formattedDeliveryDate >= currentDate ? 'upcomming' : 'completed';
   };
 
-  const preloadImages = (item) => {
-    const imagePromises = [];
-    imagePromises.push(
-      new Promise((resolve) => {
-        const img = new Image();
-        img.src = `http://localhost:7000/organizer/${item.templeImage}`;
-        img.onload = () => resolve(img);
-      })
-    );
-    return Promise.all(imagePromises);
-  };
-
-  const downloadpdf = async () => {
-    if (!selectedCard) {
-      console.error('No card selected for download');
-      return;
-    }
-
-    await preloadImages(selectedCard);
-
-    const input = pdref.current;
-    const options = {
-      scale: 2,
-      useCORS: true,
-    };
-
-    html2canvas(input, options).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jspdf('p', 'mm', 'a2', true);
-      pdf.setProperties({
-        title: 'My Booking',
-        subject: 'Booking Details',
-      });
-
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = canvas.width;
-      const imgHeight = canvas.height;
-      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-      const imgX = (pdfWidth - imgWidth * ratio) / 2;
-      const imgY = 30;
-      pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
-      pdf.save(`booking_${selectedCard._id.slice(0, 10)}.pdf`);
+  const downloadpdf = async (item) => {
+    const pdf = new jspdf('p', 'mm', 'a4');
+    pdf.setProperties({
+      title: 'My Booking',
+      subject: 'Booking Details',
     });
+
+    // Add title
+    pdf.setFontSize(20);
+    pdf.text('Darshan Booking Ticket', 105, 20, { align: 'center' });
+
+    // Add booking details
+    pdf.setFontSize(12);
+    let y = 40;
+    pdf.text(`Booking ID: ${item._id.slice(0, 10)}`, 20, y);
+    y += 10;
+    pdf.text(`Temple Name: ${item.templeName}`, 20, y);
+    y += 10;
+    pdf.text(`Darshan Name: ${item.darshanName}`, 20, y);
+    y += 10;
+    pdf.text(`Booking Date: ${item.BookingDate}`, 20, y);
+    y += 10;
+    pdf.text(`Darshan Timing: ${item.open} - ${item.close}`, 20, y);
+    y += 10;
+    pdf.text(`Number of Tickets: ${item.quantity}`, 20, y);
+    y += 10;
+    pdf.text(`Total Amount: ₹${item.totalamount}`, 20, y);
+    y += 20;
+
+    // Add QR Code (since QRCode is a component, we can't directly add it, but we can add the value as text or image)
+    // For simplicity, add the QR value as text
+    pdf.text(`QR Code Value: ${item._id.slice(0, 10)}`, 20, y);
+
+    // If there's an image, we could add it, but for now, skip or add placeholder
+    // Since adding images from URL to PDF requires loading, and to keep it simple, we'll omit the image for now.
+
+    pdf.save(`booking_${item._id.slice(0, 10)}.pdf`);
   };
 
   return (
@@ -108,9 +99,9 @@ function Mybookings() {
                   marginBottom: '35px',
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-around',}} ref={pdref}>
+                <div style={{ display: 'flex', justifyContent: 'space-around',}} >
                   <div>
-                    <img src={`http://localhost:7000/organizer/${item.templeImage}`} style={{ height: '80px' }} />
+                    <img src={item.templeImage ? `http://localhost:7000/uploads/${item.templeImage}` : "https://via.placeholder.com/80x80?text=No+Img"} style={{ height: '80px' }} />
                   </div>
                   {/* ... Other details */}
                   <div >
@@ -161,10 +152,7 @@ function Mybookings() {
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '8px' }}>
   <Button
-    onClick={() => {
-      setSelectedCard(item);
-      downloadpdf();
-    }}
+    onClick={() => downloadpdf(item)}
     style={{
       backgroundColor: 'green',
       transition: 'background-color 0.3s ease-in-out',

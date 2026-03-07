@@ -139,7 +139,7 @@ const Utemples = () => {
             <div key={item._id} className="bg-white p-4 rounded shadow" >
                 <div     >
               <img
-                src={`http://localhost:7000/organizer/${item.templeImage}`}
+                src={item.templeImage ? `http://localhost:7000/uploads/${item.templeImage}` : "https://via.placeholder.com/400x200?text=No+Image"}
                 alt="Temple Image"
                 // className="rounded-t-lg w-full object-cover mb-4"
                 style={{ height: '200px',width:"400px"}}

@@ -22,7 +22,7 @@ const Ologin = () => {
 
         if (res.data.Status === "Success") {
 
-          localStorage.setItem('user', JSON.stringify(res.data.user));
+          localStorage.setItem('user', JSON.stringify(res.data.organizer));
           navigate('/ohome');
           alert("Login successful");
 

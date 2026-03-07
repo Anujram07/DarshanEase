@@ -5,7 +5,8 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 import {Link } from "react-router-dom"
 
 const Anavbar = () => {
-  const get=localStorage.getItem('user')
+  const get = localStorage.getItem('user');
+  const userName = get && get !== 'undefined' ? JSON.parse(get).name : 'Guest';
   return (
     <Navbar bg="" variant="dark" expand="lg" style={{backgroundColor:"teal"}}>
       <Container>
@@ -17,7 +18,7 @@ const Anavbar = () => {
             <Link to="/users" style={{padding:"10px",color:"white",textDecoration:"none"}}>Users</Link>
             <Link to="/organizers" style={{padding:"10px",color:"white",textDecoration:"none"}}>Organizers</Link>
             <Link to="/" style={{padding:"10px",color:"white",textDecoration:"none"}}>Logout</Link>
-            <h4 style={{color:"white",paddingTop:"0px"}}>({JSON.parse(get).name} )</h4>
+            <h4 style={{color:"white",paddingTop:"0px"}}>({userName})</h4>
             
           </Nav>
         </Navbar.Collapse>

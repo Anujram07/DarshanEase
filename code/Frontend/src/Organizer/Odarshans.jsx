@@ -11,7 +11,8 @@ const Odarshans = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const userData = localStorage.getItem('user');
+    const user = userData && userData !== 'undefined' ? JSON.parse(userData) : null;
     if (user) {
       axios
         .get(`http://localhost:7000/organizer/getdarshans/${user.id}`)
@@ -55,7 +56,7 @@ const Odarshans = () => {
             <div key={item._id} className="bg-white p-4 rounded shadow" >
                 {/* <div     >
               <img
-                src={`http://localhost:7000/organizer/${item.templeImage}`}
+                src={`http://localhost:7000/uploads/${item.templeImage}`}
                 alt="Temple Image"
                 // className="rounded-t-lg w-full object-cover mb-4"
                 style={{ height: '250px',width:"500px"}}

@@ -12,22 +12,37 @@ function CreateTemple() {
   const [open, setOpen] = useState("");
   const [close, setClose] = useState("");
   const [description, setDescription] = useState("");
+  const [templeImage, setTempleImage] = useState(null);
 
   const handleSubmit = async (e) => {
 
   e.preventDefault();
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const userData = localStorage.getItem("user");
+  const user = userData && userData !== 'undefined' ? JSON.parse(userData) : null;
+
+  if (!user) {
+    alert('User not logged in');
+    return;
+  }
 
   try {
 
-    await axios.post("http://localhost:7000/organizer/createtemple", {
-      organizerId: user.id,
-      templeName,
-      location,
-      open,
-      close,
-      description
+    const formData = new FormData();
+    formData.append('organizerId', user.id);
+    formData.append('templeName', templeName);
+    formData.append('location', location);
+    formData.append('open', open);
+    formData.append('close', close);
+    formData.append('description', description);
+    if (templeImage) {
+      formData.append('templeImage', templeImage);
+    }
+
+    await axios.post("http://localhost:7000/organizer/createtemple", formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     });
 
     alert("Temple Created Successfully");
@@ -118,6 +133,16 @@ function CreateTemple() {
                 rows="3"
                 placeholder="Temple description"
                 required
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-semibold">Temple Image</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setTempleImage(e.target.files[0])}
+                className="w-full border rounded-lg p-2 mt-1"
               />
             </div>
 

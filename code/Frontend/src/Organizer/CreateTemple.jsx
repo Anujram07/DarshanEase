@@ -1,188 +1,142 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Card } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import Onavbar from './Onavbar';
+import React, { useState } from "react";
+import axios from "axios";
+import Onavbar from "./Onavbar";
+import { useNavigate } from "react-router-dom";
 
-function Bookings() {
+function CreateTemple() {
 
-  const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
+  const [templeName, setTempleName] = useState("");
+  const [location, setLocation] = useState("");
+  const [open, setOpen] = useState("");
+  const [close, setClose] = useState("");
+  const [description, setDescription] = useState("");
 
-    if (user) {
-      axios
-        .get(`http://localhost:7000/organizer/getorganizerbookings/${user.id}`)
-        .then((response) => {
-          setOrders(response.data);
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.error('Error fetching bookings: ', error);
-        });
-    }
+  const handleSubmit = async (e) => {
 
-  }, []);
+  e.preventDefault();
 
-  // Calculate Booking Status
-  const calculateStatus = (BookingDate) => {
-    const currentDate = new Date();
-    const bookingDate = new Date(BookingDate);
+  const user = JSON.parse(localStorage.getItem("user"));
 
-    if (bookingDate >= currentDate) {
-      return "Upcoming";
-    } else {
-      return "Completed";
-    }
-  };
+  try {
 
-  // Cancel booking
-  const cancelBooking = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7000/organizer/cancelbooking/${id}`);
-      alert("Booking Cancelled");
+    await axios.post("http://localhost:7000/organizer/createtemple", {
+      organizerId: user.id,
+      templeName,
+      location,
+      open,
+      close,
+      description
+    });
 
-      setOrders(orders.filter(order => order._id !== id));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    alert("Temple Created Successfully");
 
+    navigate("/mytemple");
+
+  } catch (error) {
+
+    console.log(error);
+
+    alert("Temple creation failed");
+
+  }
+
+};
   return (
+
     <div className="bg-gray-100 min-h-screen">
 
       <Onavbar />
 
-      <div className="container mx-auto px-6 py-8">
+      <div className="flex justify-center items-center py-10">
 
-        <h3 className="text-3xl font-bold text-center mb-8 text-gray-800">
-          Temple Bookings
-        </h3>
+        <div className="bg-white shadow-xl rounded-xl p-8 w-[420px]">
 
-        {orders.length > 0 ? (
+          <h2 className="text-2xl font-bold text-center mb-6">
+            Create Temple
+          </h2>
 
-          orders.map((item) => {
+          <form onSubmit={handleSubmit} className="space-y-4">
 
-            const status = calculateStatus(item.BookingDate);
+            <div>
+              <label className="text-sm font-semibold">Temple Name</label>
+              <input
+                type="text"
+                value={templeName}
+                onChange={(e) => setTempleName(e.target.value)}
+                className="w-full border rounded-lg p-2 mt-1"
+                placeholder="Enter temple name"
+                required
+              />
+            </div>
 
-            return (
+            <div>
+              <label className="text-sm font-semibold">Location</label>
+              <input
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                className="w-full border rounded-lg p-2 mt-1"
+                placeholder="Enter location"
+                required
+              />
+            </div>
 
-              <Card
-                key={item._id}
-                className="mb-6 shadow-lg rounded-xl border-0"
-                style={{
-                  width: "85%",
-                  margin: "auto"
-                }}
-              >
+            <div className="flex gap-3">
+              <div className="w-1/2">
+                <label className="text-sm font-semibold">Open Time</label>
+                <input
+                  type="text"
+                  value={open}
+                  onChange={(e) => setOpen(e.target.value)}
+                  className="w-full border rounded-lg p-2 mt-1"
+                  placeholder="6:00 AM"
+                  required
+                />
+              </div>
 
-                <div className="flex flex-wrap items-center justify-between p-6">
+              <div className="w-1/2">
+                <label className="text-sm font-semibold">Close Time</label>
+                <input
+                  type="text"
+                  value={close}
+                  onChange={(e) => setClose(e.target.value)}
+                  className="w-full border rounded-lg p-2 mt-1"
+                  placeholder="9:00 PM"
+                  required
+                />
+              </div>
+            </div>
 
-                  {/* Temple Image */}
-                  <div>
-                    <img
-                      src={`http://localhost:7000/organizer/${item?.templeImage}`}
-                      alt="Temple"
-                      className="h-[100px] w-[120px] object-cover rounded-lg shadow"
-                    />
-                  </div>
+            <div>
+              <label className="text-sm font-semibold">Description</label>
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="w-full border rounded-lg p-2 mt-1"
+                rows="3"
+                placeholder="Temple description"
+                required
+              />
+            </div>
 
-                  {/* Temple Name */}
-                  <div className="text-center">
-                    <p className="font-semibold text-gray-600">Temple</p>
-                    <p className="text-lg">{item.templeName}</p>
-                  </div>
+            <button
+              type="submit"
+              className="w-full bg-slate-600 text-white py-2 rounded-lg hover:bg-slate-700 transition"
+            >
+              Create Temple
+            </button>
 
-                  {/* Darshan */}
-                  <div className="text-center">
-                    <p className="font-semibold text-gray-600">Darshan</p>
-                    <p>{item.darshanName}</p>
-                  </div>
+          </form>
 
-                  {/* Booking ID */}
-                  <div className="text-center">
-                    <p className="font-semibold text-gray-600">Booking ID</p>
-                    <p>{item._id.slice(0,10)}</p>
-                  </div>
-
-                  {/* Devotee */}
-                  <div className="text-center">
-                    <p className="font-semibold text-gray-600">Devotee</p>
-                    <p>{item.userName}</p>
-                  </div>
-
-                  {/* Organizer */}
-                  <div className="text-center">
-                    <p className="font-semibold text-gray-600">Organizer</p>
-                    <p>{item.email}</p>
-                  </div>
-
-                  {/* Booking Date */}
-                  <div className="text-center">
-                    <p className="font-semibold text-gray-600">Booking Date</p>
-                    <p>{item.BookingDate}</p>
-                  </div>
-
-                  {/* Timing */}
-                  <div className="text-center">
-                    <p className="font-semibold text-gray-600">Darshan Time</p>
-                    <p>{item.open} - {item.close}</p>
-                  </div>
-
-                  {/* Price */}
-                  <div className="text-center">
-                    <p className="font-semibold text-gray-600">Price</p>
-                    <p>₹ {item.totalamount}</p>
-                  </div>
-
-                  {/* Quantity */}
-                  <div className="text-center">
-                    <p className="font-semibold text-gray-600">Tickets</p>
-                    <p>{item.quantity}</p>
-                  </div>
-
-                  {/* Status */}
-                  <div className="text-center">
-                    <p className="font-semibold text-gray-600">Status</p>
-                    <span
-                      className={`px-3 py-1 rounded-full text-white text-sm
-                      ${status === "Upcoming" ? "bg-green-500" : "bg-gray-500"}`}
-                    >
-                      {status}
-                    </span>
-                  </div>
-
-                  {/* Cancel Button */}
-                  <div>
-                    <button
-                      onClick={() => cancelBooking(item._id)}
-                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-
-                </div>
-
-              </Card>
-            );
-
-          })
-
-        ) : (
-
-          <h3 className="text-center text-gray-500 text-xl">
-            No Bookings Yet
-          </h3>
-
-        )}
+        </div>
 
       </div>
 
     </div>
+
   );
 }
 
-export default Bookings;
+export default CreateTemple;

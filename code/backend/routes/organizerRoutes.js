@@ -23,11 +23,11 @@ router.put('/organizeredit/:id', organizerController.updateOrganizer);
 router.delete('/organizerdelete/:id', organizerController.deleteOrganizer);
 
 // ---------------- TEMPLE CRUD ----------------
-router.post('/createtemple', upload.single('templeImage'), organizerController.createTemple);
+router.post('/createtemple', organizerController.createTemple);
 router.get('/gettemple/:organizerId', organizerController.getTempleByOrganizer);
 router.get('/gettemples', organizerController.getTemples);
 router.get('/gettemplebyid/:templeId', organizerController.getTempleById);
-router.put('/updatetemple/:templeId', upload.single('templeImage'), organizerController.updateTemple);
+router.put('/updatetemple/:templeId', organizerController.updateTemple);
 router.delete('/templedelete/:id', organizerController.deleteTemple);
 
 // ---------------- DARSHAN CRUD ----------------

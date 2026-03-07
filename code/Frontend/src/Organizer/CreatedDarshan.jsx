@@ -1,38 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
-import Onavbar from './Onavbar';
-import moment from 'moment';
-import 'moment-timezone';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Onavbar from "./Onavbar";
+import moment from "moment";
+import "moment-timezone";
 
 function CreatedDarshan() {
   const [items, setItems] = useState([]);
   const [formData, setFormData] = useState({
-    description: '',
-    darshanName: '',
-    open: '',
-    close: '',
+    description: "",
+    darshanName: "",
+    open: "",
+    close: "",
     prices: {
-      normal: '',
-      vip: '',
+      normal: "",
+      vip: "",
     },
   });
 
-  const { id } = useParams();
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem("user"));
+
     if (user) {
       axios
         .get(`http://localhost:7000/organizer/gettemple/${user.id}`)
         .then((response) => {
-          const templeData = response.data;
-          setItems(templeData);
+          setItems(response.data);
         })
         .catch((error) => {
-          console.error('Error fetching temples: ', error);
+          console.error("Error fetching temples:", error);
         });
     }
   }, []);
@@ -40,17 +39,21 @@ function CreatedDarshan() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name.startsWith('prices')) {
-      const newPrices = formData.prices ? { ...formData.prices } : {};
-      const priceType = name.split('.')[1];
-      newPrices[priceType] = value;
+    if (name.startsWith("prices")) {
+      const priceType = name.split(".")[1];
 
       setFormData({
         ...formData,
-        prices: newPrices,
+        prices: {
+          ...formData.prices,
+          [priceType]: value,
+        },
       });
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
     }
   };
 
@@ -68,22 +71,22 @@ function CreatedDarshan() {
       };
 
       formDataToSend.open = moment
-        .tz(formData.open, 'HH:mm', 'Asia/Kolkata')
-        .format('hh:mm A');
+        .tz(formData.open, "HH:mm", "Asia/Kolkata")
+        .format("hh:mm A");
 
       formDataToSend.close = moment
-        .tz(formData.close, 'HH:mm', 'Asia/Kolkata')
-        .format('hh:mm A');
+        .tz(formData.close, "HH:mm", "Asia/Kolkata")
+        .format("hh:mm A");
 
       await axios.post(
-        'http://localhost:7000/organizer/createdarshan',
+        "http://localhost:7000/organizer/createdarshan",
         formDataToSend
       );
 
-      alert('Darshan added successfully');
-      navigate('/odarshans');
+      alert("Darshan added successfully");
+      navigate("/odarshans");
     } catch (error) {
-      console.error('Error adding temple: ', error);
+      console.error("Error adding darshan:", error);
     }
   };
 
@@ -93,17 +96,13 @@ function CreatedDarshan() {
 
       <div className="flex justify-center items-center py-10">
         <div className="w-full max-w-xl bg-white shadow-xl rounded-xl p-8">
-
           <h2 className="text-2xl font-bold text-center text-orange-600 mb-6">
             Create Darshan
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-
             <div>
-              <label className="block font-medium mb-1">
-                Darshan Name
-              </label>
+              <label className="block font-medium mb-1">Darshan Name</label>
               <input
                 type="text"
                 name="darshanName"
@@ -121,7 +120,6 @@ function CreatedDarshan() {
               </label>
 
               <div className="grid grid-cols-2 gap-4">
-
                 <div>
                   <label className="block text-sm">Open</label>
                   <input
@@ -145,7 +143,6 @@ function CreatedDarshan() {
                     required
                   />
                 </div>
-
               </div>
             </div>
 
@@ -155,7 +152,6 @@ function CreatedDarshan() {
               </label>
 
               <div className="grid grid-cols-2 gap-4">
-
                 <div>
                   <label className="text-sm">Normal Price</label>
                   <input
@@ -181,14 +177,11 @@ function CreatedDarshan() {
                     required
                   />
                 </div>
-
               </div>
             </div>
 
             <div>
-              <label className="block font-medium mb-1">
-                Description
-              </label>
+              <label className="block font-medium mb-1">Description</label>
               <textarea
                 name="description"
                 value={formData.description}
@@ -208,7 +201,6 @@ function CreatedDarshan() {
                 Create Darshan
               </button>
             </div>
-
           </form>
         </div>
       </div>

@@ -41,7 +41,7 @@ const Ologin = () => {
 
   return (
 
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-orange-200 via-yellow-100 to-orange-300">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-200 via-purple-100 to-green-200">
 
       {/* Back Button */}
       <Link
@@ -84,7 +84,7 @@ const Ologin = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter email"
-                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
+                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
               />
             </div>
 
@@ -100,14 +100,14 @@ const Ologin = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter password"
-                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
+                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
               />
             </div>
 
             {/* Button */}
             <button
               type="submit"
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-lg transition duration-300"
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-lg transition duration-300"
             >
               Login
             </button>
@@ -117,7 +117,7 @@ const Ologin = () => {
               Don't have an account?
               <button
                 onClick={formHandle1}
-                className="ml-2 text-orange-600 font-semibold hover:underline"
+                className="ml-2 text-blue-600 font-semibold hover:underline"
               >
                 Signup
               </button>

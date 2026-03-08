@@ -83,9 +83,9 @@ const Banner = () => {
       </div>
 
       {/* Marquee Section */}
-      <div className="w-full max-w-6xl bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500 mt-6 py-3 rounded-lg shadow-lg">
+      <div className="w-full max-w-6xl bg-gradient-to-r from-blue-300 via-purple-200 to-green-300 mt-6 py-3 rounded-lg shadow-lg">
         <div className="overflow-hidden whitespace-nowrap">
-          <p className="animate-[marquee_18s_linear_infinite] text-white font-semibold text-lg px-4">
+          <p className="animate-[marquee_18s_linear_infinite] text-gray-800 font-semibold text-lg px-4">
             🙏 Book your tickets for Temple Darshan now! Limited slots available. Don't miss the divine experience.
           </p>
         </div>

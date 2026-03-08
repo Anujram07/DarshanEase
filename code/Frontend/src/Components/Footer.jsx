@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="flex justify-center mb-4">
           <button
             id="bt"
-            className="h-12 px-6 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg shadow-md transition duration-300"
+            className="h-12 px-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md transition duration-300"
           >
             Contact Us
           </button>

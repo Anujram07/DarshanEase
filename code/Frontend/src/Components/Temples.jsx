@@ -19,7 +19,7 @@ const TempleCard = ({ imageSrc, title, description }) => {
       {isHovered ? (
         <Card.Body className="flex flex-col justify-center items-center h-[200px] text-center p-4 bg-white">
           <Card.Text>
-            <strong className="text-orange-500 text-lg">Advance Darshan</strong>
+            <strong className="text-blue-500 text-lg">Advance Darshan</strong>
             <br /><br />
             <strong className="text-gray-800">{title}</strong>
             <br /><br />
@@ -47,10 +47,10 @@ const Temples = () => {
 
     <div
       id="temples"
-      className="bg-gray-100 py-10"
+      className="bg-blue-50 py-10"
     >
 
-      <h1 className="text-center text-4xl font-bold text-orange-600 mb-10">
+      <h1 className="text-center text-4xl font-bold text-blue-600 mb-10">
         Temples
       </h1>
 

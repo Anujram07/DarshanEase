@@ -3,11 +3,11 @@ import './navbar.css'
 
 const About = () => {
   return (
-    <div id="about" className="pt-16 bg-gray-50 flex justify-center">
+    <div id="about" className="pt-16 bg-blue-50 flex justify-center">
       
       <div className="max-w-5xl bg-white shadow-xl rounded-2xl p-10">
         
-        <h2 className="text-3xl font-bold text-center text-orange-600 mb-4">
+        <h2 className="text-3xl font-bold text-center text-blue-600 mb-4">
           About Darshan Booking
         </h2>
 

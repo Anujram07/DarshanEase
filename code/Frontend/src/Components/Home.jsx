@@ -8,7 +8,7 @@ import Services from './Services'
 
 const Home = () => {
   return (
-    <div id="home" className="min-h-screen bg-gray-50">
+    <div id="home" className="min-h-screen bg-blue-50">
 
       {/* Navbar */}
       <NavBar />

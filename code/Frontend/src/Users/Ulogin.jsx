@@ -43,7 +43,7 @@ const Ulogin = () => {
    
     <h2 style={{ position: "relative", bottom: "300px", right: "300px", transform: "scaleX(-1.5)",}} > <Link to="/" className='text-gray-500 hover:text-gray-900'><FaSignOutAlt/></Link></h2>
 
-      <div className="relative  bg-green-700 p-8 rounded-md shadow-md overflow-hidden" style={{display:"flex",height:"420px",width:"620px"}}>
+      <div className="relative  bg-blue-400 p-8 rounded-md shadow-md overflow-hidden" style={{display:"flex",height:"420px",width:"620px"}}>
       <div>
         <img src='https://i.pinimg.com/originals/9a/a6/12/9aa612d9c56c38e14b009f2184b67039.jpg'  style={{marginRight:"35px",height:"360px",width:"270px"}} />
       </div>
@@ -100,7 +100,7 @@ const Ulogin = () => {
             <div>
               <button
                 type="submit"
-                className="bg-red-300 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring focus:border-indigo-300 transition-all duration-300"
+                className="bg-blue-300 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring focus:border-indigo-300 transition-all duration-300"
               >
                 Log in
               </button>
@@ -109,7 +109,7 @@ const Ulogin = () => {
                 Don't have an account? Create
                 <button
                   onClick={formHandle1}
-                  className="ml-2 text-red-500 hover:underline focus:outline-none focus:ring focus:border-indigo-300 transition-all duration-300"
+                  className="ml-2 text-blue-500 hover:underline focus:outline-none focus:ring focus:border-indigo-300 transition-all duration-300"
                 >
                   Signup
                 </button>

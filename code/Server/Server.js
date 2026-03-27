@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-require('./config/db');
 const cors = require('cors');
 
 const userRoutes = require('./routes/userRoutes');
@@ -25,6 +24,26 @@ app.use('/user', userRoutes);
 app.use('/organizer', organizerRoutes);
 app.use('/admin', adminRoutes);
 
-app.listen(7000, () => {
-  console.log("Port is listening at 7000");
-});
+const PORT = process.env.PORT || 7000;
+
+const connectDB = require('./config/db');
+
+connectDB()
+  .then(() => {
+    const server = app.listen(PORT, () => {
+      console.log(`Port is listening at ${PORT}`);
+    });
+
+    server.on('error', (err) => {
+      if (err.code === 'EADDRINUSE') {
+        console.error(`Port ${PORT} is already in use.`);
+      } else {
+        console.error('Server error:', err);
+      }
+      process.exit(1);
+    });
+  })
+  .catch((err) => {
+    console.error('Failed to start server due to DB connection error:', err);
+    process.exit(1);
+  });

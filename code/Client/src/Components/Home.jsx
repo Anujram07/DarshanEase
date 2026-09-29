@@ -3,7 +3,7 @@ import Banner from './Banner'
 import Temples from './Temples'
 import About from './About'
 import Footer from './Footer'
-import NavBar from './Navbar'
+import NavBar from "./NavBar";
 import Services from './Services'
 
 const Home = () => {

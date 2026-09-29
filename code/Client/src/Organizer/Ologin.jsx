@@ -1,3 +1,4 @@
+import { API_URL } from '../api';
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -17,7 +18,7 @@ const Ologin = () => {
     let payload = { email, password };
 
     axios
-      .post("http://localhost:7000/organizer/ologin", payload)
+      .post(`${API_URL}/organizer/ologin`, payload)
       .then((res) => {
 
         if (res.data.Status === "Success") {

@@ -1,3 +1,4 @@
+import { API_URL } from '../api';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaTrash } from 'react-icons/fa';
@@ -19,7 +20,7 @@ const Mytemple = () => {
     if (user) {
 
       axios
-        .get(`http://localhost:7000/organizer/gettemple/${user.id}`)
+        .get(`${API_URL}/organizer/gettemple/${user.id}`)
         .then((response) => {
           setItems(response.data);
         })
@@ -35,7 +36,7 @@ const Mytemple = () => {
 
     try {
 
-      await axios.delete(`http://localhost:7000/organizer/deletetemple/${id}`);
+      await axios.delete(`${API_URL}/organizer/deletetemple/${id}`);
 
       alert("Temple Deleted Successfully");
 
@@ -127,7 +128,7 @@ const Mytemple = () => {
 
               {/* Temple Image */}
               <img
-                src={item.templeImage ? `http://localhost:7000/uploads/${item.templeImage}` : "https://via.placeholder.com/400x250?text=No+Image"}
+                src={item.templeImage ? `${API_URL}/uploads/${item.templeImage}` : "https://via.placeholder.com/400x250?text=No+Image"}
                 alt="Temple"
                 className="w-full rounded-lg object-cover mb-4"
                 style={{ height: "250px" }}

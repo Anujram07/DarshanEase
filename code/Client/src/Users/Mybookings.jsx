@@ -1,3 +1,4 @@
+import { API_URL } from '../api';
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Card } from 'react-bootstrap';
@@ -18,7 +19,7 @@ function Mybookings() {
     const user = userData && userData !== 'undefined' ? JSON.parse(userData) : null;
     if (user) {
       axios
-        .get(`http://localhost:7000/user/getbookings/${user.id}`)
+        .get(`${API_URL}/user/getbookings/${user.id}`)
         .then((response) => {
           const taskData = response.data;
           setItems(taskData);
@@ -101,7 +102,7 @@ function Mybookings() {
               >
                 <div style={{ display: 'flex', justifyContent: 'space-around',}} >
                   <div>
-                    <img src={item.templeImage ? `http://localhost:7000/uploads/${item.templeImage}` : "https://via.placeholder.com/80x80?text=No+Img"} style={{ height: '80px' }} />
+                    <img src={item.templeImage ? `${API_URL}/uploads/${item.templeImage}` : "https://via.placeholder.com/80x80?text=No+Img"} style={{ height: '80px' }} />
                   </div>
                   {/* ... Other details */}
                   <div >

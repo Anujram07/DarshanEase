@@ -1,3 +1,4 @@
+import { API_URL } from '../api';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Card } from "react-bootstrap";
@@ -19,7 +20,7 @@ function Bookings() {
     }
 
     axios
-      .get(`http://localhost:7000/organizer/getorganizerbookings/${user.id}`)
+      .get(`${API_URL}/organizer/getorganizerbookings/${user.id}`)
       .then((response) => {
         setOrders(response.data);
         setLoading(false);
@@ -70,7 +71,7 @@ function Bookings() {
                       {/* Temple Image */}
                       <div>
                         <img
-                          src={item?.templeImage ? `http://localhost:7000/uploads/${item.templeImage}` : "https://via.placeholder.com/80x80?text=No+Img"}
+                          src={item?.templeImage ? `${API_URL}/uploads/${item.templeImage}` : "https://via.placeholder.com/80x80?text=No+Img"}
                           alt="temple"
                           className="h-20 mx-auto object-cover rounded-md"
                         />

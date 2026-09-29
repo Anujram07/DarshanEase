@@ -1,3 +1,4 @@
+import { API_URL } from '../api';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
@@ -12,7 +13,7 @@ const Utemple = () => {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:7000/organizer/gettemplebyid/${id}`)
+        axios.get(`${API_URL}/organizer/gettemplebyid/${id}`)
             .then((resp) => {
                 console.log(resp);
                 setItem(resp.data); // Set item to the fetched data (an object, not an array)
@@ -20,7 +21,7 @@ const Utemple = () => {
                 // Fetch darshan data using the organizerId from the item
                 const organizerId = resp.data.organizerId;
                 console.log(organizerId)
-                axios.get(`http://localhost:7000/organizer/getdarshans/${organizerId}`)
+                axios.get(`${API_URL}/organizer/getdarshans/${organizerId}`)
                     .then((response) => {
                         const darshanData = response.data;
                         setDarshan(darshanData);
@@ -46,7 +47,7 @@ const Utemple = () => {
             {item && (
                 <div>
                     <div style={{ display: "flex", justifyContent: "center", height: "300px" }} >
-                        <img src={item?.templeImage ? `http://localhost:7000/uploads/${item.templeImage}` : "https://via.placeholder.com/500x300?text=No+Image"} width="500px"  />
+                        <img src={item?.templeImage ? `${API_URL}/uploads/${item.templeImage}` : "https://via.placeholder.com/500x300?text=No+Image"} width="500px"  />
                     </div>
                     <h1 className='text-center'> {item.eventName}</h1>
                     <div style={{ display: 'flex', justifyContent: 'space-around' }}>

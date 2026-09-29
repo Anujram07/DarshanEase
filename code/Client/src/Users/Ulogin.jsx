@@ -1,3 +1,4 @@
+import { API_URL } from '../api';
 import React, { useState } from 'react';
 import { useNavigate,Link } from 'react-router-dom';
 import axios from 'axios';
@@ -16,7 +17,7 @@ const Ulogin = () => {
     e.preventDefault();
     let payload = { email, password };
     axios
-      .post("http://localhost:7000/user/ulogin", payload)
+      .post(`${API_URL}/user/ulogin`, payload)
       .then((res) => {
         console.log("login: " + res.data.Status);
         if (res.data.Status === "Success") {

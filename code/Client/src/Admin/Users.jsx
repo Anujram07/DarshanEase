@@ -1,3 +1,4 @@
+import { API_URL } from '../api';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Table,Card } from 'react-bootstrap';
@@ -21,7 +22,7 @@ const Users = () => {
   };
 
    useEffect(() => {
-    axios.get(`http://localhost:7000/user/users`)
+    axios.get(`${API_URL}/user/users`)
       .then((response) => {
         setUsers(response.data);
         // setLoading(false);
@@ -33,12 +34,12 @@ const Users = () => {
 }, []);
 
 const deleteData = (taskId) => {
-    axios.delete(`http://localhost:7000/user/userdelete/${taskId}`);
+    axios.delete(`${API_URL}/user/userdelete/${taskId}`);
     window.location.assign('/users');
     alert('User is deleted');
   };
   const deleteorder = (taskId) => {
-    axios.delete(`http://localhost:7000/user/userbookingdelete/${taskId}`);
+    axios.delete(`${API_URL}/user/userbookingdelete/${taskId}`);
     window.location.assign('/users');
     alert('deleted');
   };
@@ -46,7 +47,7 @@ const deleteData = (taskId) => {
 
   const fetchUserBikeData = (userId) => {
    
-    axios.get(`http://localhost:7000/user/getbookings/${userId}`)
+    axios.get(`${API_URL}/user/getbookings/${userId}`)
 
     .then((response) => {
       setUserbookings(response.data);
@@ -128,7 +129,7 @@ const deleteData = (taskId) => {
                               >
                                 <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                   <div >
-                                  <img src={item?.templeImage ? `http://localhost:7000/uploads/${item.templeImage}` : "https://via.placeholder.com/120x80?text=No+Img"} style={{ height: "80px",width:"120px" }} />
+                                  <img src={item?.templeImage ? `${API_URL}/uploads/${item.templeImage}` : "https://via.placeholder.com/120x80?text=No+Img"} style={{ height: "80px",width:"120px" }} />
                                   </div>
                                   <div>
                                     <p>Temple Name:</p>

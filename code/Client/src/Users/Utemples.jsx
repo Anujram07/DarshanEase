@@ -1,3 +1,4 @@
+import { API_URL } from '../api';
 // import React, { useState, useEffect } from 'react';
 // import axios from 'axios';
 // import Unavbar from './Unavbar';
@@ -11,7 +12,7 @@
 
 //   useEffect(() => {
 //     axios
-//       .get(`http://localhost:7000/organizer/gettemples/`)
+//       .get(`${API_URL}/organizer/gettemples/`)
 //       .then((response) => {
 //         const templeData = response.data;
 //         setItems(templeData);
@@ -64,7 +65,7 @@
 //   {filteredItems.map((item) => (
 //     <div key={item._id} className="bg-white p-4 rounded shadow">
 //       <img
-//         src={`http://localhost:7000/${item.templeImage}`}
+//         src={`${API_URL}/${item.templeImage}`}
 //         alt="Item Image"
 //         className="rounded-t-lg"
 //         style={{ height: '350px', width: '500px' }}
@@ -109,7 +110,7 @@ const Utemples = () => {
   useEffect(() => {
    
       axios
-        .get(`http://localhost:7000/organizer/gettemples/`)
+        .get(`${API_URL}/organizer/gettemples/`)
         .then((response) => {
           const templeData = response.data;
           setItems(templeData);
@@ -122,7 +123,7 @@ const Utemples = () => {
   }, []);
 
   const deleteItem = (id) => {
-    axios.delete(`http://localhost:7000/eventdelete/${id}`);
+    axios.delete(`${API_URL}/eventdelete/${id}`);
     window.location.assign('/myevents');
     alert('Temple is deleted');
   };
@@ -139,7 +140,7 @@ const Utemples = () => {
             <div key={item._id} className="bg-white p-4 rounded shadow" >
                 <div     >
               <img
-                src={item.templeImage ? `http://localhost:7000/uploads/${item.templeImage}` : "https://via.placeholder.com/400x200?text=No+Image"}
+                src={item.templeImage ? `${API_URL}/uploads/${item.templeImage}` : "https://via.placeholder.com/400x200?text=No+Image"}
                 alt="Temple Image"
                 // className="rounded-t-lg w-full object-cover mb-4"
                 style={{ height: '200px',width:"400px"}}

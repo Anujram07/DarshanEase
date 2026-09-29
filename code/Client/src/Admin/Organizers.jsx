@@ -1,3 +1,4 @@
+import { API_URL } from '../api';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Table,Card } from 'react-bootstrap';
@@ -22,7 +23,7 @@ const Organizers= () => {
   };
 
    useEffect(() => {
-    axios.get(`http://localhost:7000/organizer/organizers`)
+    axios.get(`${API_URL}/organizer/organizers`)
       .then((response) => {
         setUsers(response.data);
         // setLoading(false);
@@ -34,12 +35,12 @@ const Organizers= () => {
 }, []);
 
 const deleteData = (taskId) => {
-    axios.delete(`http://localhost:7000/organizer/organizerdelete/${taskId}`);
+    axios.delete(`${API_URL}/organizer/organizerdelete/${taskId}`);
     window.location.assign('/organizers');
     alert('organizer is deleted');
   };
   const deleteitem = (taskId) => {
-    axios.delete(`http://localhost:7000/organizer/deletetemple/${taskId}`);
+    axios.delete(`${API_URL}/organizer/deletetemple/${taskId}`);
     window.location.assign('/organizers');
     alert('deleted');
   };
@@ -50,7 +51,7 @@ const deleteData = (taskId) => {
   
   const fetchUserBikeData = (userId) => {
    
-    axios.get(`http://localhost:7000/organizer/gettemple/${userId}`)
+    axios.get(`${API_URL}/organizer/gettemple/${userId}`)
     .then((response) => {
       setUserbookings(response.data);
       toggleDetails(); // Show Plan Details when data is fetched
@@ -131,7 +132,7 @@ const deleteData = (taskId) => {
                               >
                                 <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                   <div>
-                                    <img src={item?.templeImage ? `http://localhost:7000/uploads/${item.templeImage}` : "https://via.placeholder.com/120x80?text=No+Img"} style={{ height: "80px",width:"120px" }} /> <br/>
+                                    <img src={item?.templeImage ? `${API_URL}/uploads/${item.templeImage}` : "https://via.placeholder.com/120x80?text=No+Img"} style={{ height: "80px",width:"120px" }} /> <br/>
                                   </div>
                                   <div>
                                     <p>Temple Name:</p>

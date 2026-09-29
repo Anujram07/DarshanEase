@@ -1,3 +1,4 @@
+import { API_URL } from '../api';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -29,7 +30,7 @@ function BookDarshan() {
 
   useEffect(() => {
     setLoading(true);
-    axios.get(`http://localhost:7000/user/darshan/${id}`)
+    axios.get(`${API_URL}/user/darshan/${id}`)
       .then((resp) => {
         console.log('API Response:', resp.data);
         if (!resp.data) {
@@ -116,7 +117,7 @@ function BookDarshan() {
       updatedFormData.userName = username;
 
       // Post the updatedFormData
-      await axios.post('http://localhost:7000/user/userbooking', updatedFormData);
+      await axios.post(`${API_URL}/user/userbooking`, updatedFormData);
       console.log(updatedFormData);
       alert('booked successfully');
       navigate('/mybookings');

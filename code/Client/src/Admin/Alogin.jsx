@@ -1,3 +1,4 @@
+import { API_URL } from '../api';
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -29,7 +30,7 @@ const Alogin = () => {
     const payload = { email, password };
 
     try {
-      const res = await axios.post("http://localhost:7000/admin/alogin", payload);
+      const res = await axios.post(`${API_URL}/admin/alogin`, payload);
       
       if (res.data.Status === "Success") {
         localStorage.setItem('user', JSON.stringify(res.data.user));

@@ -1,3 +1,4 @@
+import { API_URL } from '../api';
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -23,7 +24,7 @@ function Ohome() {
       console.log(user)
       if (user) {
         axios
-          .get(`http://localhost:7000/organizer/gettemple/${user.id}`)
+          .get(`${API_URL}/organizer/gettemple/${user.id}`)
           .then((response) => {
             console.log('Response data:', response.data); // Log the response data
             const taskData = response.data;
@@ -34,7 +35,7 @@ function Ohome() {
           });
 
         // Fetch darshans data
-        axios.get(`http://localhost:7000/organizer/getdarshans/${user.id}`)
+        axios.get(`${API_URL}/organizer/getdarshans/${user.id}`)
         .then((response) => {
           setDarshans(response.data);
         })
@@ -43,7 +44,7 @@ function Ohome() {
         });
 
         // Fetch bookings data
-        axios.get(`http://localhost:7000/organizer/getorganizerbookings/${user.id}`)
+        axios.get(`${API_URL}/organizer/getorganizerbookings/${user.id}`)
         .then((response) => {
           setBookings(response.data);
         })

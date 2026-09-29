@@ -1,3 +1,4 @@
+import { API_URL } from '../api';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -17,7 +18,7 @@ function EditTemple() {
       const navigate = useNavigate();
     
       useEffect(() => {
-        axios.get(`http://localhost:7000/organizer/gettemplebyid/${id}`)
+        axios.get(`${API_URL}/organizer/gettemplebyid/${id}`)
           .then(response => {
             const templeData = response.data;
             setFormData({
@@ -55,7 +56,7 @@ function EditTemple() {
           formDataToSend.append('location', formData.location);
           formDataToSend.append('templeImage', formData.templeImage);
     
-          await axios.put(`http://localhost:7000/organizer/updatetemple/${id}`, formDataToSend);
+          await axios.put(`${API_URL}/organizer/updatetemple/${id}`, formDataToSend);
           alert('Temple updated successfully');
           navigate('/mytemple');
         } catch (error) {

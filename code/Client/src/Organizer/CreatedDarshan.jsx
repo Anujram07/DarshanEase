@@ -1,3 +1,4 @@
+import { API_URL } from '../api';
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +29,7 @@ function CreatedDarshan() {
 
     if (user) {
       axios
-        .get(`http://localhost:7000/organizer/gettemple/${user.id}`)
+        .get(`${API_URL}/organizer/gettemple/${user.id}`)
         .then((response) => {
           setItems(response.data);
         })
@@ -86,7 +87,7 @@ function CreatedDarshan() {
         .format("hh:mm A");
 
       await axios.post(
-        "http://localhost:7000/organizer/createdarshan",
+        `${API_URL}/organizer/createdarshan`,
         formDataToSend
       );
 

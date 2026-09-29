@@ -11,7 +11,7 @@ const app = express();
 // Middleware
 app.use(bodyParser.json());
 app.use(cors({
-  origin: ["http://localhost:5173"],
+  origin: ["http://localhost:5173", "https://darshanease.vercel.app"],
   methods: ["POST", "GET", "DELETE", "PUT"],
   credentials: true
 }));

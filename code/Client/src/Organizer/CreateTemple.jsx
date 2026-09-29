@@ -1,3 +1,4 @@
+import { API_URL } from '../api';
 import React, { useState } from "react";
 import axios from "axios";
 import Onavbar from "./Onavbar";
@@ -39,7 +40,7 @@ function CreateTemple() {
       formData.append('templeImage', templeImage);
     }
 
-    await axios.post("http://localhost:7000/organizer/createtemple", formData, {
+    await axios.post(`${API_URL}/organizer/createtemple`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }

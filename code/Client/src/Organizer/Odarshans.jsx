@@ -1,3 +1,4 @@
+import { API_URL } from '../api';
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -15,7 +16,7 @@ const Odarshans = () => {
     const user = userData && userData !== 'undefined' ? JSON.parse(userData) : null;
     if (user) {
       axios
-        .get(`http://localhost:7000/organizer/getdarshans/${user.id}`)
+        .get(`${API_URL}/organizer/getdarshans/${user.id}`)
         .then((response) => {
           const templeData = response.data;
           setItems(templeData);
@@ -30,7 +31,7 @@ const Odarshans = () => {
   }, []);
 
   const deleteItem = (id) => {
-    axios.delete(`http://localhost:7000/eventdelete/${id}`);
+    axios.delete(`${API_URL}/eventdelete/${id}`);
     window.location.assign('/myevents');
     alert('Temple is deleted');
   };
@@ -56,7 +57,7 @@ const Odarshans = () => {
             <div key={item._id} className="bg-white p-4 rounded shadow" >
                 {/* <div     >
               <img
-                src={`http://localhost:7000/uploads/${item.templeImage}`}
+                src={`${API_URL}/uploads/${item.templeImage}`}
                 alt="Temple Image"
                 // className="rounded-t-lg w-full object-cover mb-4"
                 style={{ height: '250px',width:"500px"}}

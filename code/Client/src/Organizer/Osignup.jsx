@@ -1,3 +1,4 @@
+import { API_URL } from '../api';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -15,7 +16,7 @@ const Osignup = () => {
     let payload = { name, email, password };
 
     axios
-      .post("http://localhost:7000/organizer/osignup", payload)
+      .post(`${API_URL}/organizer/osignup`, payload)
       .then((result) =>{
         alert('Account created')
         console.log(result)
